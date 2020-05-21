@@ -1,28 +1,19 @@
-# google-play-scraper [![Build Status](https://secure.travis-ci.org/facundoolano/google-play-scraper.png)](http://travis-ci.org/facundoolano/google-play-scraper)
+# google-play-scraper [![Build Status](https://secure.travis-ci.org/s2sarunas/google-play-scrapper.png)](http://travis-ci.org/s2sarunas/google-play-scrapper)
 Node.js module to scrape application data from the Google Play store.
 
 ### Related projects
 
-* [app-store-scraper](https://github.com/facundoolano/app-store-scraper): a scraper with a similar interface for the iTunes app store.
-* [aso](https://github.com/facundoolano/aso): an App Store Optimization module built on top of this library.
-* [google-play-api](https://github.com/facundoolano/google-play-api): a RESTful API to consume the data produced by this library.
+* [app-store-scrapper](https://github.com/s2sarunas/app-store-scrapper): a scraper with a similar interface for the iTunes app store.
 
 ## Installation
 ```
-npm install google-play-scraper
+npm install google-play-scrapper
 ```
 
 ## Usage
 Available methods:
 - [app](#app): Retrieves the full detail of an application.
-- [list](#list): Retrieves a list of applications from one of the collections at Google Play.
-- [search](#search): Retrieves a list of apps that results of searching by the given term.
-- [developer](#developer): Returns the list of applications by the given developer name.
-- [suggest](#suggest): Given a string returns up to five suggestion to complete a search query term.
 - [reviews](#reviews): Retrieves a page of reviews for a specific application.
-- [similar](#similar): Returns a list of similar apps to the one specified.
-- [permissions](#permissions): Returns the list of permissions an app has access to.
-- [categories](#categories): Retrieve a full list of categories present from dropdown menu on Google Play.
 
 ### app
 
@@ -97,172 +88,6 @@ Results:
 }
 ```
 
-### list
-Retrieve a list of applications from one of the collections at Google Play. Options:
-
-* `collection` (optional, defaults to `collection.TOP_FREE`): the Google Play collection that will be retrieved. Available options can bee found [here](https://github.com/facundoolano/google-play-scraper/blob/dev/lib/constants.js#L58).
-* `category` (optional, defaults to no category): the app category to filter by. Available options can bee found [here](https://github.com/facundoolano/google-play-scraper/blob/dev/lib/constants.js#L3).
-* `age` (optional, defaults to no age filter): the age range to filter the apps (only for FAMILY and its subcategories). Available options are `age.FIVE_UNDER`, `age.SIX_EIGHT`, `age.NINE_UP`.
-* `num` (optional, defaults to 500): the amount of apps to retrieve.
-* `lang` (optional, defaults to `'en'`): the two letter language code used to retrieve the applications.
-* `country` (optional, defaults to `'us'`): the two letter country code used to retrieve the applications.
-* `fullDetail` (optional, defaults to `false`): if `true`, an extra request will be made for every resulting app to fetch its full detail.
-
-Example:
-
-```javascript
-var gplay = require('google-play-scraper');
-
-gplay.list({
-    category: gplay.category.GAME_ACTION,
-    collection: gplay.collection.TOP_FREE,
-    num: 2
-  })
-  .then(console.log, console.log);
-```
-Results:
-
-```javascript
- [ { url: 'https://play.google.com/store/apps/details?id=com.playappking.busrush',
-    appId: 'com.playappking.busrush',
-    summary: 'Bus Rush is an amazing running game for Android! Start running now!',
-    developer: 'Play App King',
-    developerId: '6375024885749937863',
-    title: 'Bus Rush',
-    icon: 'https://lh3.googleusercontent.com/R6hmyJ6ls6wskk5hHFoW02yEyJpSG36il4JBkVf-Aojb1q4ZJ9nrGsx6lwsRtnTqfA=w340',
-    score: 3.9,
-    scoreText: '3.9',
-    priceText: 'Free',
-    free: false },
-  { url: 'https://play.google.com/store/apps/details?id=com.yodo1.crossyroad',
-    appId: 'com.yodo1.crossyroad',
-    title: 'Crossy Road',
-    summary: 'Embark on an action arcade, endless runner journey!',
-    developer: 'Yodo1 Games',
-    developerId: 'Yodo1+Games',
-    icon: 'https://lh3.googleusercontent.com/doHqbSPNekdR694M-4rAu9P2B3V6ivff76fqItheZGJiN4NBw6TrxhIxCEpqgO3jKVg=w340',
-    score: 4.5,
-    scoreText: '4.5',
-    priceText: 'Free',
-    free: false } ]
-```
-
-### search
-Retrieves a list of apps that results of searching by the given term. Options:
-
-* `term`: the term to search by.
-* `num` (optional, defaults to 20, max is 250): the amount of apps to retrieve.
-* `lang` (optional, defaults to `'en'`): the two letter language code used to retrieve the applications.
-* `country` (optional, defaults to `'us'`): the two letter country code used to retrieve the applications.
-* `fullDetail` (optional, defaults to `false`): if `true`, an extra request will be made for every resulting app to fetch its full detail.
-* `price` (optional, defaults to `all`): allows to control if the results apps are free, paid or both.
-    * `all`: Free and paid
-    * `free`: Free apps only
-    * `paid`: Paid apps only
-
-
-Example:
-
-```javascript
-var gplay = require('google-play-scraper');
-
-gplay.search({
-    term: "panda",
-    num: 2
-  }).then(console.log, console.log);
-```
-Results:
-
-```javascript
-[ { url: 'https://play.google.com/store/apps/details?id=com.snailgameusa.tp',
-    appId: 'com.snailgameusa.tp',
-    summary: 'An exciting action adventure RPG of Panda proportions!',
-    title: 'Taichi Panda',
-    developer: 'Snail Games USA',
-    developerId: 'Snail+Games+USA+Inc',
-    icon: 'https://lh3.googleusercontent.com/g8RMjpRk9yetsui4g5lxnioAFwtgoKUJDBnb2knJMrOaLOtHrwU1qYkb-PadbL0Zmg=w340',
-    score: 4.1,
-    scoreText: '4.1',
-    priceText: 'Free',
-    free: true },
-  { url: 'https://play.google.com/store/apps/details?id=com.sgn.pandapop.gp',
-    appId: 'com.sgn.pandapop.gp',
-    summary: 'Plan your every pop to rescue baby pandas from the evil Baboon!',
-    title: 'Panda Pop',
-    developer: 'SGN',
-    developerId: '5509190841173705883',
-    icon: 'https://lh5.ggpht.com/uAAUBzEHtD_-mTxomL2wFxb5VSdtNllk9M4wjVdTGMD8pH79RtWGYQYrrtfVTjq7PV7M=w340',
-    score: 4.2,
-    scoreText: '4.2',
-    priceText: 'Free',
-    free: true } ]
-```
-
-### developer
-Returns the list of applications by the given developer name. Options:
-
-* `devId`: the name of the developer.
-* `lang` (optional, defaults to `'en'`): the two letter language code in which to fetch the app list.
-* `country` (optional, defaults to `'us'`): the two letter country code used to retrieve the applications. Needed when the app is available only in some countries.
-* `num` (optional, defaults to 60): the amount of apps to retrieve.
-* `fullDetail` (optional, defaults to `false`): if `true`, an extra request will be made for every resulting app to fetch its full detail.
-
-Example:
-
-```javascript
-var gplay = require('google-play-scraper');
-
-gplay.developer({devId: "DxCo Games"}).then(console.log);
-```
-
-Results:
-```javascript
-[ { url: 'https://play.google.com/store/apps/details?id=com.dxco.pandavszombies2',
-    appId: 'com.dxco.pandavszombies2',
-    title: 'Panda vs Zombie 2 Panda\'s back',
-    summary: 'Help Rocky the Panda warrior to fight zombies again!',
-    developer: 'DxCo Games',
-    developerId: 'DxCo+Games',
-    icon: 'https://lh3.googleusercontent.com/kFco0LtC7ICP0QrtpkF-QQahU-iwuDgEsH0AClQcHwtzsO5-8BGTf8QgR6dlCLxqBLc=w340',
-    score: 3.9,
-    scoreText: '3.9',
-    priceText: 'Free',
-    free: true },
-  { url: 'https://play.google.com/store/apps/details?id=com.dxco.pandavszombies',
-    appId: 'com.dxco.pandavszombies',
-    title: 'Panda vs Zombie: panda ftw',
-    summary: 'Help Rocky the Panda warrior to fight zombie games and save the Panda kind.',
-    developer: 'DxCo Games',
-    developerId: 'DxCo+Games',
-    icon: 'https://lh6.ggpht.com/5mI27oolnooL__S3ns9qAf_6TsFNExMtUAwTKz6prWCxEmVkmZZZwe3lI-ZLbMawEJh3=w340',
-    score: 4.5,
-    scoreText: '4.5',
-    priceText: 'Free',
-    free: true } ]
-```
-
-### suggest
-Given a string returns up to five suggestion to complete a search query term. Options:
-
-* `term`: the term to get suggestions for.
-* `lang` (optional, defaults to `'en'`): the two letter language code used to retrieve the suggestions.
-* `country` (optional, defaults to `'us'`): the two letter country code used to retrieve the suggestions.
-
-Example:
-```javascript
-var gplay = require('google-play-scraper');
-
-gplay.suggest({term: 'panda'}).then(console.log);
-```
-
-Results:
-```javascript
-[ 'panda pop',
-  'panda',
-  'panda games',
-  'panda run',
-  'panda pop for free' ]
-```
 ### reviews
 Retrieves a page of reviews for a specific application.
 
@@ -331,88 +156,6 @@ Results:
     version: null,
     thumbsUp: 29
     criterias: [] } ]
-```
-
-### similar
-Returns a list of similar apps to the one specified. Options:
-
-* `appId`: the Google Play id of the application to get similar apps for.
-* `lang` (optional, defaults to `'en'`): the two letter language code used to retrieve the applications.
-* `country` (optional, defaults to `'us'`): the two letter country code used to retrieve the applications.
-* `fullDetail` (optional, defaults to `false`): if `true`, an extra request will be made for every resulting app to fetch its full detail.
-
-Example:
-
-```javascript
-var gplay = require('google-play-scraper');
-
-gplay.similar({appId: "com.dxco.pandavszombies"}).then(console.log);
-```
-
-Results:
-```javascript
-[ { url: 'https://play.google.com/store/apps/details?id=com.creative.rambo',
-    appId: 'com.creative.rambo',
-    summary: 'Rambo - The Mobile Game',
-    developer: 'Creative Distribution Ltd',
-    developerId: '8812103738509382093',
-    icon: '//lh3.googleusercontent.com/QDRAv7v4LSCfZgz3GIbOSz8Zj8rWqeeYuqqYiqyQXkxRJwG7vvUltzsFaWK5D7-JMnIZ=w340',
-    score: 3.3,
-    scoreText: '3.3',
-    priceText: '$2.16',
-    free: false } ]
-```
-
-### permissions
-Returns the list of permissions an app has access to.
-
-* `appId`: the Google Play id of the application to get permissions for.
-* `lang` (optional, defaults to `'en'`): the two letter language code in which to fetch the permissions.
-* `short` (optional, defaults to `false`): if `true`, the permission names will be returned instead of
-permission/description objects.
-
-Example:
-
-```javascript
-var gplay = require('google-play-scraper');
-
-gplay.permissions({appId: "com.dxco.pandavszombies"}).then(console.log);
-```
-
-Results:
-```javascript
-[ { permission: 'modify or delete the contents of your USB storage',
-    type: 'Storage' },
-  { permission: 'read the contents of your USB storage',
-    type: 'Storage' },
-  { permission: 'full network access',
-    type: 'Photos/Media/Files' },
-  { permission: 'view network connections',
-    type: '' } ]
-```
-
-### categories
-Retrieve a full list of categories present from dropdown menu on Google Play.
-
-* this method has no options
-
-Example:
-
-```javascript
-var gplay = require('google-play-scraper');
-
-gplay.categories().then(console.log);
-```
-
-Results:
-```javascript
-[ 'AUTO_AND_VEHICLES',
-  'LIBRARIES_AND_DEMO',
-  'LIFESTYLE',
-  'MAPS_AND_NAVIGATION',
-  'BEAUTY',
-  'BOOKS_AND_REFERENCE',
-  ...< 51 more items> ]
 ```
 
 ## Memoization
