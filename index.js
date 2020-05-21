@@ -5,7 +5,6 @@ const constants = require('./lib/constants');
 const memoizee = require('memoizee');
 
 const appMethod = require('./lib/app');
-const getParseList = require('./lib/utils/parseList');
 
 const methods = {
   app: appMethod,
