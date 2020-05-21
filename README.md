@@ -1,13 +1,13 @@
-# google-play-scraper [![Build Status](https://secure.travis-ci.org/s2sarunas/google-play-scrapper.png)](http://travis-ci.org/s2sarunas/google-play-scrapper)
+# play-store-scraper [![Build Status](https://secure.travis-ci.org/s2sarunas/play-store-scraper.png)](http://travis-ci.org/s2sarunas/play-store-scraper)
 Node.js module to scrape application data from the Google Play store.
 
 ### Related projects
 
-* [app-store-scrapper](https://github.com/s2sarunas/app-store-scrapper): a scraper with a similar interface for the iTunes app store.
+* [app-store-scraper](https://github.com/s2sarunas/app-store-scraper): a scraper with a similar interface for the iTunes app store.
 
 ## Installation
 ```
-npm install s2sarunas/google-play-scrapper
+npm install s2sarunas/play-store-scraper
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ Retrieves the full detail of an application. Options:
 Example:
 
 ```javascript
-var gplay = require('google-play-scraper');
+var gplay = require('play-store-scraper');
 
 gplay.app({appId: 'com.google.android.apps.translate'})
   .then(console.log, console.log);
@@ -104,7 +104,7 @@ Options:
 Example:
 
 ```javascript
-var gplay = require('google-play-scraper');
+var gplay = require('play-store-scraper');
 
 gplay.reviews({
   appId: 'com.mojang.minecraftpe',
@@ -166,9 +166,9 @@ to avoid requesting the same data twice. The `memoized` function returns a
 store object that caches its results:
 
 ```js
-var store = require('google-play-scraper'); // regular non caching version
-var memoized = require('google-play-scraper').memoized(); // cache with default options
-var memoizedCustom = require('google-play-scraper').memoized({ maxAge: 1000 * 60 }); // cache with customized options
+var store = require('play-store-scraper'); // regular non caching version
+var memoized = require('play-store-scraper').memoized(); // cache with default options
+var memoizedCustom = require('play-store-scraper').memoized({ maxAge: 1000 * 60 }); // cache with customized options
 
 // first call will hit google play and cache the results
 memoized.developer({devId: "DxCo Games"}).then(console.log);
@@ -195,7 +195,7 @@ defines an upper bound to the amount of requests that will be attempted per seco
 Once that limit is reached, further requests will be held until the second passes.
 
 ```js
-var gplay = require('google-play-scraper');
+var gplay = require('play-store-scraper');
 
 // the following method will perform batches of 10 requests per second
 gplay.search({term: 'panda', throttle: 10}).then(console.log);
