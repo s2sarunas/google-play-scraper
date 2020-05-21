@@ -6,7 +6,6 @@ const memoizee = require('memoizee');
 
 const appMethod = require('./lib/app');
 const getParseList = require('./lib/utils/parseList');
-const parseList = R.partial(getParseList, [appMethod]);
 
 const methods = {
   app: appMethod,
@@ -24,7 +23,6 @@ function memoized (opts) {
   // need to rebuild the methods so they all share the same memoized appMethod
   const doMemoize = (fn) => memoizee(fn, cacheOpts);
   const mAppMethod = memoizee(appMethod, cacheOpts);
-  const mParseList = R.partial(getParseList, [mAppMethod]);
 
   const otherMethods = {
     reviews: require('./lib/reviews')
