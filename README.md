@@ -7,7 +7,7 @@ Node.js module to scrape application data from the Google Play store.
 
 ## Installation
 ```
-npm install google-play-scrapper
+npm install s2sarunas/google-play-scrapper
 ```
 
 ## Usage
